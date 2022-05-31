@@ -51,8 +51,10 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleLogin(w http.ResponseWriter, r *http.Request) {
-
-	url := config.AuthCodeURL(randomState)
+	codeChallenge := v.CodeChallengeS256()
+	codeChallengeOpt := oauth2.SetAuthURLParam("code_challenge", codeChallenge)
+	codeChallengeMethodOpt := oauth2.SetAuthURLParam("code_challenge_method", "S256")
+	url := config.AuthCodeURL(randomState, codeChallengeMethodOpt, codeChallengeOpt)
 	fmt.Println(url)
 	http.Redirect(w, r, url, http.StatusTemporaryRedirect)
 }
@@ -64,16 +66,27 @@ func handleCallback(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 		return
 	}
-
+	codeVerfier := v.String()
+	fmt.Printf("Code Verifier String is %s", codeVerfier)
+	codeVerifyopt := oauth2.SetAuthURLParam("code_verifier", codeVerfier)
+	token, err := config.Exchange(oauth2.NoContext, r.FormValue("code"), codeVerifyopt)
 	fmt.Println(r.FormValue("code"))
 	fmt.Println(time.Now())
-	token, err := config.Exchange(oauth2.NoContext, r.FormValue("code"))
+
 	if err != nil {
 		fmt.Println("could not create token")
 		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 		return
 	}
 	fmt.Println(token.Expiry)
+
+	// token1, err := config.Exchange(oauth2.NoContext, r.FormValue("code"))
+	// if err != nil {
+	// 	fmt.Println("could not create token")
+	// 	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+	// 	return
+	// }
+	// fmt.Println(token1)
 
 	resp, err := http.Get("https://www.googleapis.com/oauth2/v3/userinfo?access_token=" + token.AccessToken)
 	if err != nil {
