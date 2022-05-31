@@ -2,10 +2,7 @@ module github.com/shivamk2406/Oauth-Flow
 
 go 1.18
 
-require (
-	github.com/nirasan/go-oauth-pkce-code-verifier v0.0.0-20220510032225-4f9f17eaec4c
-	golang.org/x/oauth2 v0.0.0-20220524215830-622c5d57e401
-)
+require golang.org/x/oauth2 v0.0.0-20220524215830-622c5d57e401
 
 require (
 	cloud.google.com/go v0.65.0 // indirect

@@ -8,8 +8,6 @@ import (
 
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
-
-	cv "github.com/nirasan/go-oauth-pkce-code-verifier"
 )
 
 var (
@@ -28,7 +26,6 @@ var (
 		Scopes:       []string{"https://www.googleapis.com/auth/userinfo.email"},
 	}
 	randomState = "random"
-	v, _        = cv.CreateCodeVerifier()
 )
 
 var (
