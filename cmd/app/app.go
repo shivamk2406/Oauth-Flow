@@ -1,4 +1,4 @@
-package cmd
+package app
 
 import (
 	"fmt"
@@ -50,6 +50,8 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 func handleLogin(w http.ResponseWriter, r *http.Request) {
 
 	url := config.AuthCodeURL(randomState)
+	url1 := config2.AuthCodeURL(randomState)
+	fmt.Println(url1)
 	fmt.Println(url)
 	http.Redirect(w, r, url, http.StatusTemporaryRedirect)
 }

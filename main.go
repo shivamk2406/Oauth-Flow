@@ -1,7 +1,7 @@
 package main
 
-import "github.com/shivamk2406/Oauth-Flow/cmd"
+import "github.com/shivamk2406/Oauth-Flow/cmd/app"
 
 func main() {
-	cmd.Start()
+	app.Start()
 }
